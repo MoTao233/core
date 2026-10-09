@@ -32,8 +32,11 @@ namespace ModCore.Modules.Platforms
         public SteamPlatformModule()
         {
             HashlinkHooks.Instance.CreateHook("steam.$Api", "sync", Hook__Api_sync, true);
-            HashlinkHooks.Instance.CreateHook("achievements.SteamAchievementManager", "unlock", Hook_SteamAchievementManager_unlock, true);
-            HashlinkHooks.Instance.CreateHook("achievements.SteamAchievementManager", "isUnlocked", Hook_SteamAchievementManager_isUnlocked, true);
+            if (!Core.Config.Value.EnableAchievements)
+            {
+                HashlinkHooks.Instance.CreateHook("achievements.SteamAchievementManager", "unlock", Hook_SteamAchievementManager_unlock, true);
+                HashlinkHooks.Instance.CreateHook("achievements.SteamAchievementManager", "isUnlocked", Hook_SteamAchievementManager_isUnlocked, true);
+            }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -71,6 +74,11 @@ namespace ModCore.Modules.Platforms
 
         private void Hook__Api_sync( HashlinkClosure orig )
         {
+            if (Core.Config.Value.EnableAchievements)
+            {
+                orig.CreateDelegate<Action>()();
+                return;
+            }
             try
             {
                 SteamAPI.RunCallbacks();

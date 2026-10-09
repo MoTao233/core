@@ -10,6 +10,8 @@ namespace ModCore
         public string? NewVersionPopup { get; set; }
 
         public bool GeneratePseudocodeAssembly { get; set; } = false;
+        // Applied during VM startup; restart after changing this setting.
+        public bool EnableAchievements { get; set; } = false;
         public bool AllowCloseConsole { get; set; } = false;
         public bool UseGameCDBManager { get; set; } = true;
         public bool AllowLockCursor { get; set; } = true;

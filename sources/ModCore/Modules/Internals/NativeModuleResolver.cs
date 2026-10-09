@@ -70,7 +70,8 @@ namespace ModCore.Modules.Internals
 
         EventResult<nint> IOnResolveNativeFunction.OnResolveNativeFunction( IOnResolveNativeFunction.NativeFunctionInfo info )
         {
-            if (info.libname == "steam" && !ContextConfig.Default.noModsMode)
+            if (info.libname == "steam" && !ContextConfig.Default.noModsMode &&
+                !Core.Config.Value.EnableAchievements)
             {
                 if (info.name == "is_user_logged_in")
                 {

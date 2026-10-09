@@ -191,8 +191,11 @@ namespace ModCore.Modules
             Hook_Boot.forceRender += Hook_Boot_forceRender;
             Hook_Boot.render += Hook_Boot_render;
 
-            Hook__Achievements.setAchievement += Hook__Achievements_setAchievement;
-            Hook__Achievements.hasAchievement += Hook__Achievements_hasAchievement;
+            if (!Core.Config.Value.EnableAchievements)
+            {
+                Hook__Achievements.setAchievement += Hook__Achievements_setAchievement;
+                Hook__Achievements.hasAchievement += Hook__Achievements_hasAchievement;
+            }
 
             Hook_HUD.postUpdate += Hook_HUD_postUpdate;
 
@@ -367,7 +370,10 @@ namespace ModCore.Modules
             if (!Core.Config.Value.DCCMWarningPopup)
             {
                 var popup = new ModalPopUp(Ref<bool>.In(true), null);
-                popup.text(GetText.Instance.GetString("Dead Cells Core Modding enabled, achievements and rankings disabled.").AsHaxeString(), null, default);
+                var warning = Core.Config.Value.EnableAchievements
+                    ? "Core Modding 已启用：成就保留，排行榜上传已禁用。"
+                    : GetText.Instance.GetString("Dead Cells Core Modding enabled, achievements and rankings disabled.");
+                popup.text(warning.AsHaxeString(), null, default);
                 popup.text(GetText.Instance.GetString("This window will not reappear after closing.").AsHaxeString(), null, default);
                 popup.onClose = () =>
                 {
