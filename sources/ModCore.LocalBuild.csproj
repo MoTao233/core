@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ModCore</AssemblyName>
+    <RootNamespace>ModCore</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <OutputPath>../bin/managed-core-patch/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ModCore/**/*.cs" Exclude="ModCore/obj/**;ModCore/bin/**" />
+    <Reference Include="$(ReleaseHostRoot)/*.dll" Exclude="$(ReleaseHostRoot)/ModCore.dll">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(ReleaseHostRoot)/../mdk/ref/GameProxy.dll">
+      <Private>false</Private>
+    </Reference>
+    <Using Include="Hashlink.HashlinkNative" Static="true" />
+  </ItemGroup>
+</Project>

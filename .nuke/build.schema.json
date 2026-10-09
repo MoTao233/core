@@ -27,6 +27,7 @@
         "BuildAll",
         "BuildAssets",
         "BuildCore",
+        "BuildManagedCorePatch",
         "BuildMDK",
         "BuildNative",
         "DownloadLinux64Bin",
@@ -125,6 +126,10 @@
         "CurrentOSPlatform": {
           "type": "string",
           "description": "Target OS Platform to build"
+        },
+        "ReleaseHostRoot": {
+          "type": "string",
+          "description": "Host directory from the matching official DCCM release"
         }
       }
     },

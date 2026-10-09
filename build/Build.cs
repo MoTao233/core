@@ -279,6 +279,21 @@ class Build : NukeBuild
 
     #region Core Build
 
+    [Parameter("Host directory from the matching official DCCM release")]
+    readonly string ReleaseHostRoot;
+
+    Target BuildManagedCorePatch => _ => _.Executes(() =>
+    {
+        if (string.IsNullOrWhiteSpace(ReleaseHostRoot))
+        {
+            throw new ArgumentException("--release-host-root is required");
+        }
+        DotNetTasks.DotNetBuild(s => s
+            .SetProjectFile(SourceRoot + "/ModCore.LocalBuild.csproj")
+            .SetConfiguration(Configuration)
+            .SetProperty("ReleaseHostRoot", ReleaseHostRoot));
+    });
+
     Target BuildCore => _ => _.DependsOn(GenerateGameProxy)
             .DependsOn(BuildNative)
             .DependsOn(PrepareHLC)
